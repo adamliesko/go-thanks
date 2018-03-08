@@ -4,8 +4,8 @@
 [![GoDoc](https://godoc.org/github.com/adamliesko/go-thanks?status.svg)](https://godoc.org/github.com/adamliesko/go-thanks) 
 [![Coverage Status](https://img.shields.io/coveralls/adamliesko/go-thanks.svg)](https://coveralls.io/r/adamliesko/go-thanks?branch=master)
 
-Go-thanks is a cmd line utility to show some love to all the hardworking developers and organzaitions, from whose work you profit daily by using their OSS.
-It  automatically detects imported packages from your package managers (dep, Govendor and Glide) and stars repositories of those packages
+`go-thanks` is a cmd line utility to show some love to all the hardworking developers and organzaitions, from whose work you profit daily by using their OSS.
+It  automatically detects imported packages from your package managers ([dep](https://github.com/golang/dep), [Govendor](https://github.com/kardianos/govendor) and [Glide](https://github.com/Masterminds/glide) and stars repositories of imported packages.
 on Github and Gitlab.
 
 ### Installation
@@ -34,8 +34,6 @@ Usage of ./go-thanks:
 
 ```
 
-
-
 ### Access Tokens
 
 `go-thanks` requires personal access tokens, to be able to perform the thank action (starring a repository).
@@ -44,4 +42,4 @@ For Github follow their [creating-a-personal-access-token](https://help.github.c
 guide and check only `public_repo` access.
 
 For Gitlab follow their [personal_access_tokens](https://docs.gitlab.com/ce/user/profile/personal_access_tokens.html) 
-guide and check only `public_repo` access.
+guide and use scope `api`.
