@@ -1,12 +1,10 @@
 package discover
 
 import (
+	"errors"
 	"path"
-	"testing"
-
 	"reflect"
-
-	"github.com/pkg/errors"
+	"testing"
 )
 
 func TestDiscoverRepositories(t *testing.T) {

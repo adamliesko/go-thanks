@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -8,7 +9,6 @@ import (
 
 	"github.com/adamliesko/go-thanks/discover"
 	"github.com/adamliesko/go-thanks/thank"
-	"github.com/pkg/errors"
 )
 
 var (
