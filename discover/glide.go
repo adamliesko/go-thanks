@@ -21,13 +21,13 @@ func (d Glide) InUse(projectPath string) (bool, error) {
 	return true, nil
 }
 
-func (d Glide) DiscoverRepositories(projectPath string) (repoMap, error) {
+func (d Glide) DiscoverRepositories(projectPath string) (RepoMap, error) {
 	list, err := packageListGlide(projectPath)
 	if err != nil {
 		return nil, err
 	}
 
-	repoMap := repoMap{}
+	repoMap := RepoMap{}
 	for _, p := range list.Import {
 		repoMap.add(p.Package)
 	}

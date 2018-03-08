@@ -22,13 +22,13 @@ func govendorFilePath(projectPath string) string {
 	return path.Join(projectPath, "vendor", "vendor.json")
 }
 
-func (d Govendor) DiscoverRepositories(projectPath string) (repoMap, error) {
+func (d Govendor) DiscoverRepositories(projectPath string) (RepoMap, error) {
 	list, err := packageListGovendor(projectPath)
 	if err != nil {
 		return nil, err
 	}
 
-	repoMap := repoMap{}
+	repoMap := RepoMap{}
 	for _, p := range list.Package {
 		repoMap.add(p.Path)
 	}

@@ -21,13 +21,13 @@ func (d Dep) InUse(projectPath string) (bool, error) {
 	return true, nil
 }
 
-func (d Dep) DiscoverRepositories(projectPath string) (repoMap, error) {
+func (d Dep) DiscoverRepositories(projectPath string) (RepoMap, error) {
 	list, err := packageListDep(projectPath)
 	if err != nil {
 		return nil, err
 	}
 
-	repoMap := repoMap{}
+	repoMap := RepoMap{}
 	for _, c := range list.Constraint {
 		repoMap.add(c.Name)
 	}

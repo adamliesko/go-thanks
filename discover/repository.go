@@ -12,16 +12,11 @@ type Repository struct {
 	URL   string
 }
 
-// Strings implements Stringer interface for Go.
-func (r Repository) String() string {
-	return r.URL
-}
+type RepoMap map[string]Repository
 
-type repoMap map[string]Repository
-
-func (rm repoMap) add(pkgPath string) {
+func (rm RepoMap) add(pkgPath string) {
 	if rm == nil {
-		rm = repoMap{}
+		rm = RepoMap{}
 	}
 
 	splits := strings.SplitAfterN(pkgPath, "/", 4)
@@ -40,7 +35,7 @@ func (rm repoMap) add(pkgPath string) {
 	}
 }
 
-func (rm repoMap) toSortedSlice() []Repository {
+func (rm RepoMap) toSortedSlice() []Repository {
 	repos := []Repository{}
 	for _, repo := range rm {
 		repos = append(repos, repo)
