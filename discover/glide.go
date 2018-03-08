@@ -12,7 +12,11 @@ const glideFilePath = "glide.yaml"
 
 type Glide struct{}
 
-func (d Glide) InUse(projectPath string) (bool, error) {
+func (g Glide) Name() string {
+	return "glide"
+}
+
+func (g Glide) InUse(projectPath string) (bool, error) {
 	_, err := os.Stat(path.Join(projectPath, glideFilePath))
 	if err != nil {
 		return false, err
@@ -21,7 +25,7 @@ func (d Glide) InUse(projectPath string) (bool, error) {
 	return true, nil
 }
 
-func (d Glide) DiscoverRepositories(projectPath string) (RepoMap, error) {
+func (g Glide) DiscoverRepositories(projectPath string) (RepoMap, error) {
 	list, err := packageListGlide(projectPath)
 	if err != nil {
 		return nil, err

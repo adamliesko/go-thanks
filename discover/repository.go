@@ -12,6 +12,7 @@ type Repository struct {
 	URL   string
 }
 
+// RepoMap is a lookup structure holding repoURL:repo as key value pairs.
 type RepoMap map[string]Repository
 
 func (rm RepoMap) add(pkgPath string) {

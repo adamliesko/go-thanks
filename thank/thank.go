@@ -1,4 +1,4 @@
-// Package thank thanks (usually by starring) repositories holding Go packages imported by ones project.
+// Package thank thanks (usually by starring) repositories providing Go packages.
 package thank
 
 import (
@@ -9,7 +9,7 @@ import (
 	"github.com/adamliesko/go-thanks/thank/gitlab"
 )
 
-// Thanker ...
+// Thanker abstracts away a mean of thanking for a Go OSS contribution, usually by starring a repository.
 type Thanker interface {
 	Auth() error
 	CanThank(discover.Repository) (bool, error)
@@ -48,7 +48,6 @@ func Thank(ts []Thanker, repos []discover.Repository) (int, error) {
 			}
 			err := s.Thank(r)
 			if err != nil {
-				log.Printf("Error thanking to to repository %s, error: %v\n", r.URL, err)
 				return thankedCount, err
 			}
 			log.Printf("Thanked to repository %s by %s\n", r.URL, r.Owner)

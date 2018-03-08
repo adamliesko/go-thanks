@@ -9,7 +9,11 @@ import (
 
 type Govendor struct{}
 
-func (d Govendor) InUse(projectPath string) (bool, error) {
+func (g Govendor) Name() string {
+	return "govendor"
+}
+
+func (g Govendor) InUse(projectPath string) (bool, error) {
 	_, err := os.Stat(govendorFilePath(projectPath))
 	if err != nil {
 		return false, err
@@ -22,7 +26,7 @@ func govendorFilePath(projectPath string) string {
 	return path.Join(projectPath, "vendor", "vendor.json")
 }
 
-func (d Govendor) DiscoverRepositories(projectPath string) (RepoMap, error) {
+func (g Govendor) DiscoverRepositories(projectPath string) (RepoMap, error) {
 	list, err := packageListGovendor(projectPath)
 	if err != nil {
 		return nil, err

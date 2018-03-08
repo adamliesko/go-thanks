@@ -12,6 +12,10 @@ const depFilePath = "Gopkg.toml"
 
 type Dep struct{}
 
+func (d Dep) Name() string {
+	return "dep"
+}
+
 func (d Dep) InUse(projectPath string) (bool, error) {
 	_, err := os.Stat(path.Join(projectPath, depFilePath))
 	if err != nil {

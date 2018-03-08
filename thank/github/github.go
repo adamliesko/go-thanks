@@ -3,10 +3,8 @@ package github
 import (
 	"fmt"
 	"net/http"
-	"strings"
-
 	"net/url"
-
+	"strings"
 	"time"
 
 	"github.com/adamliesko/go-thanks/discover"
@@ -14,7 +12,7 @@ import (
 
 const apiEndpoint = "https://api.github.com"
 
-// Thanker is a light GithubAPI HTTP client capable of starring a repository.
+// Thanker is a light Github API HTTP client capable of starring a repository.
 type Thanker struct {
 	cl       *http.Client
 	apiToken string
@@ -28,7 +26,7 @@ func New(token string) Thanker {
 	}
 }
 
-// Auth ..
+// Auth checks whether thanker's apiToken is a valid one for Github.
 func (t Thanker) Auth() error {
 	uri := fmt.Sprintf("%s/%s", apiEndpoint, t.authTokenParams())
 
@@ -76,7 +74,7 @@ func (t Thanker) Thank(r discover.Repository) error {
 	return nil
 }
 
-// CanThank ...
+// CanThank reports, whether Github thanke is capable of thanking to repository r, by checking package prefix.
 func (t Thanker) CanThank(r discover.Repository) (bool, error) {
 	return strings.HasPrefix(r.URL, "github.com"), nil
 }

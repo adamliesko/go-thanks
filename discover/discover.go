@@ -2,8 +2,11 @@
 // discovers Go packages used, with respective repositories.
 package discover
 
+import "log"
+
 // Govendor can explore the workspace and discover Go packages that are used in project by specific package manager.
 type Discoverer interface {
+	Name() string
 	InUse(path string) (bool, error)
 	DiscoverRepositories(path string) (RepoMap, error)
 }
@@ -17,6 +20,8 @@ func DiscoverRepositories(path string) ([]Repository, error) {
 		if inUse, err := d.InUse(path); !inUse || err != nil {
 			continue
 		}
+
+		log.Printf("Using %s to discover imported packages\n", d.Name())
 		rs, err := d.DiscoverRepositories(path)
 		if err != nil {
 			return nil, err
