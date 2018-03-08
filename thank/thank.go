@@ -12,13 +12,12 @@ import (
 // Thanker abstracts away a mean of thanking for a Go OSS contribution, usually by starring a repository.
 type Thanker interface {
 	Auth() error
-	CanThank(discover.Repository) (bool, error)
+	CanThank(discover.Repository) bool
 	Thank(discover.Repository) error
 }
 
 // Thankers produces a list of verified and authenticated thankers.
-func Thankers(githubToken, gitlabToken string) ([]Thanker, error) {
-	var ts []Thanker
+func Thankers(ts []Thanker, githubToken, gitlabToken string) ([]Thanker, error) {
 	if githubToken != "" {
 		gt := github.New(githubToken)
 		if err := gt.Auth(); err != nil {
@@ -43,7 +42,7 @@ func Thank(ts []Thanker, repos []discover.Repository) (int, error) {
 
 	for _, r := range repos {
 		for _, s := range ts {
-			if can, err := s.CanThank(r); !can || err != nil {
+			if !s.CanThank(r) {
 				continue
 			}
 			err := s.Thank(r)

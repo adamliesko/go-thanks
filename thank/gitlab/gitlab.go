@@ -75,8 +75,8 @@ func (t Thanker) Thank(r discover.Repository) error {
 }
 
 // CanThank reports, whether Gitlab thanker is capable of thanking to repository r, by checking package prefix.
-func (t Thanker) CanThank(r discover.Repository) (bool, error) {
-	return strings.HasPrefix(r.URL, "gitlab.com"), nil
+func (t Thanker) CanThank(r discover.Repository) bool {
+	return strings.HasPrefix(r.URL, "gitlab.com")
 }
 
 func (t Thanker) authTokenParams() string {
