@@ -1,6 +1,7 @@
 package discover
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 )
@@ -42,7 +43,8 @@ func resolveGoPkgIn(pkgPath string) string {
 	case 1:
 		splits := strings.SplitN(pkgPath, "/", 2)
 		dotIndex := strings.LastIndex(splits[1], ".")
-		return "github.com/go-pkg/" + splits[1][:dotIndex]
+		pkg := splits[1][:dotIndex]
+		return fmt.Sprintf("github.com/go-%s/%s", pkg, pkg)
 	case 2:
 		replaced := strings.Replace(pkgPath, "gopkg.in", "github.com", 1)
 		dotIndex := strings.LastIndex(replaced, ".")

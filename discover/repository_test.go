@@ -15,18 +15,18 @@ func TestRepoMapAdditionDuplicate(t *testing.T) {
 
 func TestRepoMapAdditionGoPkgIn(t *testing.T) {
 	rm := RepoMap{}
-	rm.add("gopkg.in/pkg.v3")
-	rm.add("gopkg.in/user/pkg.v3")
+	rm.add("gopkg.in/yaml.v3")
+	rm.add("gopkg.in/user/hope.v3")
 
 	ss := rm.toSortedSlice()
 	if len(ss) != 2 {
 		t.Fatal("bad repos count")
 	}
-	want0 := "github.com/go-pkg/pkg"
+	want0 := "github.com/go-yaml/yaml"
 	if ss[0].URL != want0 {
 		t.Errorf("bad url on index 0, got %s want %s", ss[0].URL, want0)
 	}
-	want1 := "github.com/user/pkg"
+	want1 := "github.com/user/hope"
 	if ss[1].URL != want1 {
 		t.Errorf("bad url on index 1, got %s want %s", ss[1].URL, want1)
 	}
