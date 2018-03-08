@@ -19,10 +19,11 @@ type Repository struct {
 // Discoverer ...
 type Discoverer interface {
 	InUse() (bool, error)
-	DiscoverRepositories() ([]Repository, error)
+	DiscoverRepositories() (map[string]Repository, error)
 }
 
-// Thankable
+// ThankableRepositories produces a slice of repositories that can be later thanked to using a set of known discoverers
+// exploring the package managers.
 func ThankableRepositories(discoverers []Discoverer) ([]Repository, error) {
 	repos := []Repository{}
 
@@ -30,13 +31,22 @@ func ThankableRepositories(discoverers []Discoverer) ([]Repository, error) {
 		if inUse, err := d.InUse(); !inUse || err != nil {
 			continue
 		}
-		rs, err := d.DiscoverRepositories()
+		repoMap, err := d.DiscoverRepositories()
 		if err != nil {
 			return nil, err
 		}
 
-		repos = append(repos, rs...)
+		repos = append(repos, reposSlice(repoMap)...)
 	}
 
 	return repos, nil
+}
+
+func reposSlice(repoMap map[string]Repository) []Repository {
+	repos := []Repository{}
+	for _, repo := range repoMap {
+		repos = append(repos, repo)
+	}
+
+	return repos
 }

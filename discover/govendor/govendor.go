@@ -4,19 +4,11 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
-
-	"strings"
-
 	"path"
+	"strings"
 
 	"github.com/adamliesko/go-thanks/discover"
 )
-
-type List struct {
-	Package []struct {
-		Path string `json:"path"`
-	} `json:"package"`
-}
 
 type Discoverer struct{}
 
@@ -29,20 +21,20 @@ func (d Discoverer) InUse() (bool, error) {
 	return true, nil
 }
 
-func (d Discoverer) DiscoverRepositories() ([]discover.Repository, error) {
-	content, err := ioutil.ReadFile(vendorFilePath())
+func vendorFilePath() string {
+	return path.Join("vendor", "vendor.json")
+}
+
+func (d Discoverer) DiscoverRepositories() (map[string]discover.Repository, error) {
+	list, err := readPackageList()
 	if err != nil {
-		return nil, err
-	}
-	list := List{}
-	if err := json.Unmarshal(content, &list); err != nil {
 		return nil, err
 	}
 
 	repoMap := map[string]discover.Repository{}
 	for _, p := range list.Package {
 		splits := strings.SplitAfterN(p.Path, "/", 4)
-		// TODO: extract logic out of goendor and deal with gopkgin
+		// TODO: extract logic out of govendor and deal with gopkgin
 		if len(splits) < 3 {
 			continue
 		}
@@ -53,14 +45,26 @@ func (d Discoverer) DiscoverRepositories() ([]discover.Repository, error) {
 		}
 	}
 
-	repos := []discover.Repository{}
-	for _, repo := range repoMap {
-		repos = append(repos, repo)
-	}
-
-	return repos, nil
+	return repoMap, nil
 }
 
-func vendorFilePath() string {
-	return path.Join("vendor", "vendor.json")
+type List struct {
+	Package []struct {
+		Path string `json:"path"`
+	} `json:"package"`
+}
+
+func readPackageList() (List, error) {
+	list := List{}
+
+	content, err := ioutil.ReadFile(vendorFilePath())
+	if err != nil {
+		return List{}, err
+	}
+	err = json.Unmarshal(content, &list)
+	if err != nil {
+		return List{}, err
+	}
+
+	return list, nil
 }

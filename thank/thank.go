@@ -15,9 +15,9 @@ type Thanker interface {
 	Auth() error
 }
 
-// Thankers ...
+// Thankers producers a list of verified and authenticated thankers.
 func Thankers(githubToken, gitlabToken string) ([]Thanker, error) {
-	ts := []Thanker{}
+	var ts []Thanker
 	if githubToken != "" {
 		gt := github.New(githubToken)
 		if err := gt.Auth(); err != nil {
@@ -35,9 +35,10 @@ func Thankers(githubToken, gitlabToken string) ([]Thanker, error) {
 	return ts, nil
 }
 
-// Thank ...
+// Thank thanks to all the repositories and their owners using one of the passed in thankers, by starring the repositories.
 func Thank(ts []Thanker, repos []discover.Repository) (int, error) {
 	var thankedCount int
+
 	for _, r := range repos {
 		for _, s := range ts {
 			if can, err := s.CanThank(r); !can || err != nil {
