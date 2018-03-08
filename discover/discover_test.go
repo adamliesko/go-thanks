@@ -57,6 +57,11 @@ func TestDiscoverRepositories(t *testing.T) {
 					Owner: "codegangsta",
 					URL:   "github.com/codegangsta/cli",
 				},
+				{
+					Name:  "yaml",
+					Owner: "go-pkg",
+					URL:   "github.com/go-pkg/yaml",
+				},
 			}, wantErr: nil,
 		},
 		{
@@ -94,6 +99,11 @@ func TestDiscoverRepositories(t *testing.T) {
 					Name:  "cli",
 					Owner: "codegangsta",
 					URL:   "github.com/codegangsta/cli",
+				},
+				{
+					Name:  "yaml",
+					Owner: "go-pkg",
+					URL:   "github.com/go-pkg/yaml",
 				},
 				{
 					Name:  "go-toml",
