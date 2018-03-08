@@ -6,6 +6,7 @@ env:
   global:
     - PATH=$HOME/gopath/bin:$PATH
 install:
+  - go get github.com/pelletier/go-toml
   - go get github.com/mattn/goveralls
 script:
   - $GOPATH/bin/goveralls -race=true -service=travis-ci
