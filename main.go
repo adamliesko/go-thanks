@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	githubToken = flag.String("github-token", os.Getenv("GITHUB_API_TOKEN"), "Github API token. Defaults to env variable GITHUB_API_TOKEN.")
-	gitlabToken = flag.String("gitlab-token", os.Getenv("GITLAB_API_TOKEN"), "Gitlab API token. Defaults to env variable GITLAB_API_TOKEN.")
+	githubToken = flag.String("github-token", os.Getenv("GITHUB_TOKEN"), "Github API token. Defaults to env variable GITHUB_TOKEN.")
+	gitlabToken = flag.String("gitlab-token", os.Getenv("GITLAB_TOKEN"), "Gitlab API token. Defaults to env variable GITLAB_TOKEN.")
 	path        = flag.String("path", ".", "Path to Go project.")
 )
 
@@ -41,6 +41,8 @@ func thankGiants() error {
 }
 
 func main() {
+	flag.Parse()
+
 	if err := thankGiants(); err != nil {
 		log.Fatal(err)
 	}
