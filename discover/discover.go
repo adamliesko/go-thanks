@@ -1,52 +1,38 @@
+// Package discover host all the discovereres which can explore user project and identify package manager in use and
+// discovers Go packages used, with respective repositories.
 package discover
 
-// Packages ...
-type Packages []Package
-
-// Package ...
-type Package struct {
-	Name      string
-	Thankable bool
-}
-
-// Repository
-type Repository struct {
-	Name  string
-	Owner string
-	URL   string
-}
-
-// Discoverer ...
+// Govendor can explore the workspace and discover Go packages that are used in project by specific package manager.
 type Discoverer interface {
-	InUse() (bool, error)
-	DiscoverRepositories() (map[string]Repository, error)
+	InUse(path string) (bool, error)
+	DiscoverRepositories(path string) (repoMap, error)
 }
 
-// ThankableRepositories produces a slice of repositories that can be later thanked to using a set of known discoverers
-// exploring the package managers.
-func ThankableRepositories(discoverers []Discoverer) ([]Repository, error) {
-	repos := []Repository{}
+// DiscoverRepositories produces a slice of repositories extracted from the passed in discoverers within one's Go project.
+func DiscoverRepositories(path string) ([]Repository, error) {
+	discoverers := []Discoverer{Dep{}, Glide{}, Govendor{}}
 
+	repoMap := make(repoMap)
 	for _, d := range discoverers {
-		if inUse, err := d.InUse(); !inUse || err != nil {
+		if inUse, err := d.InUse(path); !inUse || err != nil {
 			continue
 		}
-		repoMap, err := d.DiscoverRepositories()
+		rs, err := d.DiscoverRepositories(path)
 		if err != nil {
 			return nil, err
 		}
 
-		repos = append(repos, reposSlice(repoMap)...)
+		for k, v := range rs {
+			if _, ok := repoMap[k]; ok {
+				continue
+			}
+			repoMap[k] = v
+		}
+
 	}
+
+	// predictive sorting of resulting repos
+	repos := repoMap.toSortedSlice()
 
 	return repos, nil
-}
-
-func reposSlice(repoMap map[string]Repository) []Repository {
-	repos := []Repository{}
-	for _, repo := range repoMap {
-		repos = append(repos, repo)
-	}
-
-	return repos
 }

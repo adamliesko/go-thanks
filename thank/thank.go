@@ -1,3 +1,4 @@
+// Package thank thanks (usually by starring) repositories holding Go packages imported by ones project.
 package thank
 
 import (
@@ -10,12 +11,12 @@ import (
 
 // Thanker ...
 type Thanker interface {
+	Auth() error
 	CanThank(discover.Repository) (bool, error)
 	Thank(discover.Repository) error
-	Auth() error
 }
 
-// Thankers producers a list of verified and authenticated thankers.
+// Thankers produces a list of verified and authenticated thankers.
 func Thankers(githubToken, gitlabToken string) ([]Thanker, error) {
 	var ts []Thanker
 	if githubToken != "" {
@@ -35,7 +36,8 @@ func Thankers(githubToken, gitlabToken string) ([]Thanker, error) {
 	return ts, nil
 }
 
-// Thank thanks to all the repositories and their owners using one of the passed in thankers, by starring the repositories.
+// Thank thanks to all the repositories and their owners using one of the passed in thankers, usually by starring the
+// repositories.
 func Thank(ts []Thanker, repos []discover.Repository) (int, error) {
 	var thankedCount int
 
@@ -46,6 +48,7 @@ func Thank(ts []Thanker, repos []discover.Repository) (int, error) {
 			}
 			err := s.Thank(r)
 			if err != nil {
+				log.Printf("Error thanking to to repository %s, error: %v\n", r.URL, err)
 				return thankedCount, err
 			}
 			log.Printf("Thanked to repository %s by %s\n", r.URL, r.Owner)

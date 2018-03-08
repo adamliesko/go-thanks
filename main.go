@@ -7,18 +7,14 @@ import (
 	"os"
 
 	"github.com/adamliesko/go-thanks/discover"
-	"github.com/adamliesko/go-thanks/discover/dep"
-	"github.com/adamliesko/go-thanks/discover/glide"
-	"github.com/adamliesko/go-thanks/discover/govendor"
 	"github.com/adamliesko/go-thanks/thank"
 	"github.com/pkg/errors"
 )
 
 var (
-	githubToken = flag.String("github-token", os.Getenv("GITHUB_API_TOKEN"), "Github API token. Default env variable GITHUB_API_TOKEN.")
-	gitlabToken = flag.String("gitlab-token", os.Getenv("GITLAB_API_TOKE "), "Gitlab API token. Default env variable GITLAB_API_TOKEN.")
-
-	knownDiscoverers = []discover.Discoverer{dep.Discoverer{}, glide.Discoverer{}, govendor.Discoverer{}}
+	githubToken = flag.String("github-token", os.Getenv("GITHUB_API_TOKEN"), "Github API token. Defaults to env variable GITHUB_API_TOKEN.")
+	gitlabToken = flag.String("gitlab-token", os.Getenv("GITLAB_API_TOKEN"), "Gitlab API token. Defaults to env variable GITLAB_API_TOKEN.")
+	path        = flag.String("path", ".", "Path to Go project.")
 )
 
 func thankGiants() error {
@@ -30,7 +26,7 @@ func thankGiants() error {
 		return errors.New("none capable thankers found")
 	}
 
-	repos, err := discover.ThankableRepositories(knownDiscoverers)
+	repos, err := discover.DiscoverRepositories(*path)
 	if err != nil {
 		return fmt.Errorf("error getting thankable repositories: %v", err)
 	}
