@@ -18,6 +18,17 @@ var (
 )
 
 func thankGiants() error {
+	log.Println("==== Discovering ====")
+
+	repos, err := discover.DiscoverRepositories(*path)
+	if err != nil {
+		return fmt.Errorf("error getting thankable repositories: %v", err)
+	}
+
+	log.Printf("Discovered %d repositories", len(repos))
+
+	log.Println("====== Thanking =====")
+
 	ts, err := thank.Thankers(*githubToken, *gitlabToken)
 	if err != nil {
 		return fmt.Errorf("error getting available thankers: %v", err)
@@ -26,17 +37,13 @@ func thankGiants() error {
 		return errors.New("none capable thankers found")
 	}
 
-	repos, err := discover.DiscoverRepositories(*path)
-	if err != nil {
-		return fmt.Errorf("error getting thankable repositories: %v", err)
-	}
-
 	thanked, err := thank.Thank(ts, repos)
 	if err != nil {
 		return fmt.Errorf("error thanking: %v", err)
 	}
 
-	log.Printf("Thanked to %d repositories.", thanked)
+	log.Println("======== Done =======")
+	log.Printf("Thanked to %d repositories 🙏", thanked)
 	return nil
 }
 
