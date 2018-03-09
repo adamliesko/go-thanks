@@ -50,7 +50,7 @@ func thankGiants(thankers []thank.Thanker, path string) error {
 
 	log.Println("======== Done =======")
 	took := time.Now().Sub(startedAt)
-	log.Printf("Thanked to %d repositories 🙏! (took %v)\n", thanked, took.Round(time.Millisecond))
+	log.Printf("Thanked to %d repositories 🙏! (took %v)\n", thanked, took)
 	return nil
 }
 
