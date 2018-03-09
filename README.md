@@ -4,9 +4,9 @@
 [![GoDoc](https://godoc.org/github.com/adamliesko/go-thanks?status.svg)](https://godoc.org/github.com/adamliesko/go-thanks) 
 [![Coverage Status](https://img.shields.io/coveralls/adamliesko/go-thanks.svg)](https://coveralls.io/r/adamliesko/go-thanks?branch=master)
 
-`go-thanks` is a cmd line utility to show some love to all the hardworking developers and organzaitions, from whose work you profit daily by using their OSS.
-It  automatically detects imported packages from your package managers ([dep](https://github.com/golang/dep), [Govendor](https://github.com/kardianos/govendor) and [Glide](https://github.com/Masterminds/glide) and stars repositories of imported packages.
-on Github and Gitlab.
+`go-thanks` is a cmd line utility to show some love to all the hardworking developers and organizations, from whose work you profit daily by using their OSS.
+It  automatically detects imported packages from your package managers ([dep](https://github.com/golang/dep), [Govendor](https://github.com/kardianos/govendor) and [Glide](https://github.com/Masterminds/glide)) 
+and stars package repositories on Github and Gitlab.
 
 ### Installation
 ```
@@ -19,9 +19,9 @@ go get -u github.com/adamliesko/go-thanks
 go-thanks --github-token GITHUB_TOKEN
 ``` 
 
-As an alternative, a project path can be specified
-by adding `--path PATH` argument. If no tokens are provided from the command line, `go-thanks` falls back to reading
-respective variables.
+As an alternative, a path to your Go project can be specified
+by adding `--project-path PATH` argument. If no tokens are provided from the command line, `go-thanks` falls back to reading
+respective environment variables `GITHUB_TOKEN` and `GITLAB_TOKEN`.
 
 ```
 Usage of ./go-thanks:
@@ -29,7 +29,7 @@ Usage of ./go-thanks:
     	Github API token. Defaults to env variable GITHUB_TOKEN.
   -gitlab-token string
     	Gitlab API token. Defaults to env variable GITLAB_TOKEN.
-  -path string
+  -project-path string
     	Path to Go project. (default ".")
 
 ```

@@ -9,32 +9,34 @@ import (
 
 	"github.com/adamliesko/go-thanks/discover"
 	"github.com/adamliesko/go-thanks/thank"
+	"github.com/adamliesko/go-thanks/thank/github"
+	"github.com/adamliesko/go-thanks/thank/gitlab"
 )
 
 var (
 	githubToken = flag.String("github-token", os.Getenv("GITHUB_TOKEN"), "Github API token. Defaults to env variable GITHUB_TOKEN.")
 	gitlabToken = flag.String("gitlab-token", os.Getenv("GITLAB_TOKEN"), "Gitlab API token. Defaults to env variable GITLAB_TOKEN.")
-	path        = flag.String("path", ".", "Path to Go project.")
+	projectPath = flag.String("project-path", ".", "Path to Go project.")
 )
 
-func thankGiants() error {
+func thankGiants(thankers []thank.Thanker, path string) error {
 	log.Println("==== Discovering ====")
-
-	repos, err := discover.DiscoverRepositories(*path)
+	repos, err := discover.DiscoverRepositories(path)
 	if err != nil {
 		return fmt.Errorf("error getting thankable repositories: %v", err)
 	}
-
-	log.Printf("Discovered %d repositories", len(repos))
+	log.Printf("Discovered %d repositories\n", len(repos))
+	if len(repos) == 0 {
+		return nil
+	}
 
 	log.Println("====== Thanking =====")
-
-	ts, err := thank.Thankers(*githubToken, *gitlabToken)
+	ts, err := thank.AuthThankers(thankers)
 	if err != nil {
-		return fmt.Errorf("error getting available thankers: %v", err)
+		return fmt.Errorf("error authenticating available thankers: %v", err)
 	}
 	if len(ts) == 0 {
-		return errors.New("none capable thankers found")
+		return errors.New("none authenticated thankers found")
 	}
 
 	thanked, err := thank.Thank(ts, repos)
@@ -43,14 +45,27 @@ func thankGiants() error {
 	}
 
 	log.Println("======== Done =======")
-	log.Printf("Thanked to %d repositories 🙏", thanked)
+	log.Printf("Thanked to %d repositories 🙏\n", thanked)
 	return nil
+}
+
+func run() error {
+	var ts []thank.Thanker
+	if *githubToken != "" {
+		gt := github.New(*githubToken)
+		ts = append(ts, gt)
+	}
+	if *gitlabToken != "" {
+		gt := gitlab.New(*gitlabToken)
+		ts = append(ts, gt)
+	}
+	return thankGiants(ts, *projectPath)
 }
 
 func main() {
 	flag.Parse()
 
-	if err := thankGiants(); err != nil {
+	if err := run(); err != nil {
 		log.Fatal(err)
 	}
 }
