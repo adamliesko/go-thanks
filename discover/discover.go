@@ -1,5 +1,5 @@
-// Package discover host all the discovereres which can explore user project and identify package manager in use and
-// discovers Go packages used, with respective repositories.
+// Package discover hosts all the discoverers which can explore Go projects and identify package managers in user, so that
+// repositories hosting packages can be discovered.
 package discover
 
 // Discoverer can explore the workspace and discover Go packages that are used in project by specific package manager.
