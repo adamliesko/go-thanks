@@ -7,6 +7,8 @@ import (
 	"log"
 	"os"
 
+	"time"
+
 	"github.com/adamliesko/go-thanks/discover"
 	"github.com/adamliesko/go-thanks/thank"
 	"github.com/adamliesko/go-thanks/thank/github"
@@ -20,6 +22,8 @@ var (
 )
 
 func thankGiants(thankers []thank.Thanker, path string) error {
+	startedAt := time.Now()
+
 	log.Println("==== Discovering ====")
 	repos, err := discover.DiscoverRepositories(path)
 	if err != nil {
@@ -45,7 +49,8 @@ func thankGiants(thankers []thank.Thanker, path string) error {
 	}
 
 	log.Println("======== Done =======")
-	log.Printf("Thanked to %d repositories 🙏\n", thanked)
+	took := time.Now().Sub(startedAt)
+	log.Printf("Thanked to %d repositories 🙏! (took %v)\n", thanked, took.Round(time.Millisecond))
 	return nil
 }
 
