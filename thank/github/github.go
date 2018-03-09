@@ -14,21 +14,23 @@ const apiEndpoint = "https://api.github.com"
 
 // Thanker is a light Github API HTTP client capable of starring a repository.
 type Thanker struct {
-	cl       *http.Client
-	apiToken string
+	cl          *http.Client
+	apiToken    string
+	apiEndpoint string
 }
 
 // New creates a new thanker with the apiToken set.
 func New(token string) Thanker {
 	return Thanker{
-		cl:       &http.Client{Timeout: 10 * time.Second},
-		apiToken: token,
+		cl:          &http.Client{Timeout: 10 * time.Second},
+		apiToken:    token,
+		apiEndpoint: apiEndpoint,
 	}
 }
 
 // Auth checks whether thanker's apiToken is a valid one for Github.
 func (t Thanker) Auth() error {
-	uri := fmt.Sprintf("%s/%s", apiEndpoint, t.authTokenParams())
+	uri := fmt.Sprintf("%s/%s", t.apiEndpoint, t.authTokenParams())
 
 	req, err := http.NewRequest("GET", uri, nil)
 	if err != nil {
@@ -50,12 +52,12 @@ func (t Thanker) Auth() error {
 
 // Thank stars a repository as user thanker's apiToken.
 func (t Thanker) Thank(r discover.Repository) error {
-	urlString := fmt.Sprintf("%s/user/starred/%s/%s%s", apiEndpoint, r.Owner, r.Name, t.authTokenParams())
-	uri, err := url.Parse(urlString)
+	uri, err := t.thankURL(r)
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest("PUT", uri.String(), nil)
+
+	req, err := http.NewRequest("PUT", uri, nil)
 	if err != nil {
 		return err
 	}
@@ -81,4 +83,13 @@ func (t Thanker) CanThank(r discover.Repository) bool {
 
 func (t Thanker) authTokenParams() string {
 	return fmt.Sprintf("?access_token=%s", t.apiToken)
+}
+
+func (t Thanker) thankURL(r discover.Repository) (string, error) {
+	urlString := fmt.Sprintf("%s/user/starred/%s/%s%s", t.apiEndpoint, r.Owner, r.Name, t.authTokenParams())
+	uri, err := url.Parse(urlString)
+	if err != nil {
+		return "", err
+	}
+	return uri.String(), nil
 }

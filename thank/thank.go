@@ -5,8 +5,6 @@ import (
 	"log"
 
 	"github.com/adamliesko/go-thanks/discover"
-	"github.com/adamliesko/go-thanks/thank/github"
-	"github.com/adamliesko/go-thanks/thank/gitlab"
 )
 
 // Thanker abstracts away a mean of thanking for a Go OSS contribution, usually by starring a repository.
@@ -16,23 +14,16 @@ type Thanker interface {
 	Thank(discover.Repository) error
 }
 
-// Thankers produces a list of verified and authenticated thankers.
-func Thankers(ts []Thanker, githubToken, gitlabToken string) ([]Thanker, error) {
-	if githubToken != "" {
-		gt := github.New(githubToken)
-		if err := gt.Auth(); err != nil {
+// AuthThankers produces a list of verified and authenticated thankers.
+func AuthThankers(ts []Thanker) ([]Thanker, error) {
+	authed := []Thanker{}
+	for _, t := range ts {
+		if err := t.Auth(); err != nil {
 			return nil, err
 		}
-		ts = append(ts, gt)
+		authed = append(authed, t)
 	}
-	if gitlabToken != "" {
-		gt := gitlab.New(gitlabToken)
-		if err := gt.Auth(); err != nil {
-			return nil, err
-		}
-		ts = append(ts, gt)
-	}
-	return ts, nil
+	return authed, nil
 }
 
 // Thank thanks to all the repositories and their owners using one of the passed in thankers, usually by starring the

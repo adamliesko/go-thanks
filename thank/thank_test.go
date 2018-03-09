@@ -1,6 +1,8 @@
 package thank
 
 import (
+	"io/ioutil"
+	"log"
 	"strings"
 	"testing"
 
@@ -10,13 +12,49 @@ import (
 
 const goodApiToken = "pass123"
 
+func init() {
+	log.SetOutput(ioutil.Discard)
+}
+
+func TestAuthThankers(t *testing.T) {
+	t.Parallel()
+
+	tcs := []struct {
+		token     string
+		wantError bool
+	}{
+		{
+			token:     goodApiToken,
+			wantError: false,
+		},
+		{
+			token:     "bad",
+			wantError: true,
+		},
+	}
+
+	for _, tc := range tcs {
+		ft := &FakeThanker{
+			thanked:  map[string]bool{},
+			apiToken: tc.token,
+		}
+		_, err := AuthThankers([]Thanker{ft})
+		if (err == nil) == tc.wantError {
+			t.Errorf("unexpected error response %v for token %s wantError %v", err, tc.token, tc.wantError)
+		}
+	}
+}
+
 func TestThank(t *testing.T) {
+	t.Parallel()
+
 	ft := &FakeThanker{
 		thanked: map[string]bool{},
 	}
 	repos := []discover.Repository{
 		{URL: "fake-thanker.com/me/em", Owner: "me", Name: "em"},
 		{URL: "fake-thanker.com/me/ok", Owner: "me", Name: "ok"},
+		{URL: "xx-thanker.com/me/ok", Owner: "me", Name: "ok"},
 	}
 	thanked, err := Thank([]Thanker{ft}, repos)
 	if err != nil {
@@ -31,12 +69,16 @@ func TestThank(t *testing.T) {
 }
 
 func TestThankPartiallyFaulty(t *testing.T) {
+	t.Parallel()
+
 	ft := &FakeThanker{
 		thanked: map[string]bool{},
 	}
 	repos := []discover.Repository{
 		{URL: "fake-thanker.com/me/em", Owner: "me", Name: "em"},
 		{URL: "fake-thanker.com/me/error", Owner: "me", Name: "error"},
+		{URL: "fake-thanker.com/me/eme", Owner: "me", Name: "em"},
+		{URL: "xxx-thanker.com/me/eme", Owner: "me", Name: "em"},
 	}
 	thanked, err := Thank([]Thanker{ft}, repos)
 	if err == nil {

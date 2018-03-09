@@ -14,21 +14,23 @@ const apiEndpoint = "https://gitlab.com/api/v4/"
 
 // Thanker is a light Gitlab API HTTP client capable of starring a repository.
 type Thanker struct {
-	cl       *http.Client
-	apiToken string
+	cl          *http.Client
+	apiToken    string
+	apiEndpoint string
 }
 
 // New creates a new thanker for Gitlab with the apiToken set.
 func New(token string) Thanker {
 	return Thanker{
-		cl:       &http.Client{Timeout: 10 * time.Second},
-		apiToken: token,
+		cl:          &http.Client{Timeout: 10 * time.Second},
+		apiToken:    token,
+		apiEndpoint: apiEndpoint,
 	}
 }
 
 // Auth checks whether thanker's apiToken is a valid one for Gitlab.
 func (t Thanker) Auth() error {
-	uri := fmt.Sprintf("%s/user/%s", apiEndpoint, t.authTokenParams())
+	uri := fmt.Sprintf("%s/user/%s", t.apiEndpoint, t.authTokenParams())
 
 	req, err := http.NewRequest("GET", uri, nil)
 	if err != nil {
@@ -40,7 +42,6 @@ func (t Thanker) Auth() error {
 		return fmt.Errorf("gitlab authentication failed with an errror: %v", err)
 	}
 	defer resp.Body.Close()
-
 	if code := resp.StatusCode; code != http.StatusOK {
 		return fmt.Errorf("gitlab authentication failed with HTTP status code: %d", code)
 	}
@@ -50,7 +51,7 @@ func (t Thanker) Auth() error {
 
 // Thank stars a repository as a user with thanker's apiToken on Gitlab.
 func (t Thanker) Thank(r discover.Repository) error {
-	urlString := fmt.Sprintf("%s/projects/%s%%2F%s/star%s", apiEndpoint, r.Owner, r.Name, t.authTokenParams())
+	urlString := fmt.Sprintf("%s/projects/%s%%2F%s/star%s", t.apiEndpoint, r.Owner, r.Name, t.authTokenParams())
 	uri, err := url.Parse(urlString)
 	if err != nil {
 		return err
