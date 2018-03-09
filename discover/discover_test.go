@@ -2,10 +2,16 @@ package discover
 
 import (
 	"errors"
+	"io/ioutil"
+	"log"
 	"path"
 	"reflect"
 	"testing"
 )
+
+func init() {
+	log.SetOutput(ioutil.Discard)
+}
 
 func TestDiscoverRepositories(t *testing.T) {
 	tcs := []struct {
@@ -57,8 +63,8 @@ func TestDiscoverRepositories(t *testing.T) {
 				},
 				{
 					Name:  "yaml",
-					Owner: "go-pkg",
-					URL:   "github.com/go-pkg/yaml",
+					Owner: "go-yaml",
+					URL:   "github.com/go-yaml/yaml",
 				},
 			}, wantErr: nil,
 		},
@@ -100,8 +106,8 @@ func TestDiscoverRepositories(t *testing.T) {
 				},
 				{
 					Name:  "yaml",
-					Owner: "go-pkg",
-					URL:   "github.com/go-pkg/yaml",
+					Owner: "go-yaml",
+					URL:   "github.com/go-yaml/yaml",
 				},
 				{
 					Name:  "go-toml",

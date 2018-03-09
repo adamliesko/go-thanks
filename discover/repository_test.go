@@ -5,6 +5,8 @@ import (
 )
 
 func TestRepoMapAdditionDuplicate(t *testing.T) {
+	t.Parallel()
+
 	rm := RepoMap{}
 	rm.add("github.com/owner/repo/pkg")
 	rm.add("github.com/owner/repo/pkg")
@@ -14,6 +16,8 @@ func TestRepoMapAdditionDuplicate(t *testing.T) {
 }
 
 func TestRepoMapAdditionGoPkgIn(t *testing.T) {
+	t.Parallel()
+
 	rm := RepoMap{}
 	rm.add("gopkg.in/yaml.v3")
 	rm.add("gopkg.in/user/hope.v3")
@@ -34,6 +38,8 @@ func TestRepoMapAdditionGoPkgIn(t *testing.T) {
 }
 
 func TestRepoMapAdditionMultiple(t *testing.T) {
+	t.Parallel()
+
 	rm := RepoMap{}
 	rm.add("github.com/owner/repo/pkg")
 	rm.add("github.com/owner/another_repo/pkg")
@@ -43,6 +49,8 @@ func TestRepoMapAdditionMultiple(t *testing.T) {
 }
 
 func TestRepoMapSorting(t *testing.T) {
+	t.Parallel()
+
 	rm := RepoMap{
 		"github.com/owner/xrepo": Repository{
 			URL: "github.com/owner/xrepo",
