@@ -10,12 +10,15 @@ import (
 
 const glideFilePath = "glide.yaml"
 
+// Glide is a discoverer for glide Go package manager.
 type Glide struct{}
 
+// Name returns name of Glide discoverer.
 func (g Glide) Name() string {
 	return "glide"
 }
 
+// InUse checks whether project is using glide as a package manager.
 func (g Glide) InUse(projectPath string) (bool, error) {
 	_, err := os.Stat(path.Join(projectPath, glideFilePath))
 	if err != nil {
@@ -25,7 +28,8 @@ func (g Glide) InUse(projectPath string) (bool, error) {
 	return true, nil
 }
 
-func (g Glide) DiscoverRepositories(projectPath string) (RepoMap, error) {
+// Repositories discovers repositories belonging to packages imported inside a project managed by Glide.
+func (g Glide) Repositories(projectPath string) (RepoMap, error) {
 	list, err := packageListGlide(projectPath)
 	if err != nil {
 		return nil, err

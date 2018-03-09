@@ -10,7 +10,7 @@ import (
 	"github.com/adamliesko/go-thanks/discover"
 )
 
-const goodApiToken = "pass123"
+const goodAPIToken = "pass123"
 
 func init() {
 	log.SetOutput(ioutil.Discard)
@@ -24,7 +24,7 @@ func TestAuthThankers(t *testing.T) {
 		wantError bool
 	}{
 		{
-			token:     goodApiToken,
+			token:     goodAPIToken,
 			wantError: false,
 		},
 		{
@@ -110,7 +110,7 @@ func (ft *FakeThanker) Thank(r discover.Repository) error {
 }
 
 func (ft *FakeThanker) Auth() error {
-	if ft.apiToken == goodApiToken {
+	if ft.apiToken == goodAPIToken {
 		return nil
 	}
 	return errors.New("bad auth")

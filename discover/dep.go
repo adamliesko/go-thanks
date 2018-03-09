@@ -10,12 +10,15 @@ import (
 
 const depFilePath = "Gopkg.toml"
 
+// Dep is a discoverer for dep Go package manager.
 type Dep struct{}
 
+// Name returns name of Dep discoverer.
 func (d Dep) Name() string {
 	return "dep"
 }
 
+// InUse checks whether project is using dep as a package manager.
 func (d Dep) InUse(projectPath string) (bool, error) {
 	_, err := os.Stat(path.Join(projectPath, depFilePath))
 	if err != nil {
@@ -25,7 +28,8 @@ func (d Dep) InUse(projectPath string) (bool, error) {
 	return true, nil
 }
 
-func (d Dep) DiscoverRepositories(projectPath string) (RepoMap, error) {
+// Repositories discovers repositories belonging to packages imported inside a project managed by Dep.
+func (d Dep) Repositories(projectPath string) (RepoMap, error) {
 	list, err := packageListDep(projectPath)
 	if err != nil {
 		return nil, err

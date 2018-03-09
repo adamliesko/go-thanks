@@ -141,7 +141,7 @@ func TestDiscoverRepositories(t *testing.T) {
 	}
 
 	for _, tc := range tcs {
-		repos, err := DiscoverRepositories(tc.path)
+		repos, err := Repositories(tc.path)
 		if (err == nil) != (tc.wantErr == nil) {
 			t.Errorf("%s: error missmatch, got %v want %v", tc.name, err, tc.wantErr)
 		}

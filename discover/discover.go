@@ -2,15 +2,15 @@
 // discovers Go packages used, with respective repositories.
 package discover
 
-// Govendor can explore the workspace and discover Go packages that are used in project by specific package manager.
+// Discoverer can explore the workspace and discover Go packages that are used in project by specific package manager.
 type Discoverer interface {
 	Name() string
 	InUse(path string) (bool, error)
-	DiscoverRepositories(path string) (RepoMap, error)
+	Repositories(path string) (RepoMap, error)
 }
 
-// DiscoverRepositories produces a slice of repositories extracted from the passed in discoverers within one's Go project.
-func DiscoverRepositories(path string) ([]Repository, error) {
+// Repositories produces a slice of repositories extracted from the passed in discoverers within one's Go project.
+func Repositories(path string) ([]Repository, error) {
 	discoverers := []Discoverer{Dep{}, Glide{}, Govendor{}}
 
 	repoMap := make(RepoMap)
@@ -19,7 +19,7 @@ func DiscoverRepositories(path string) ([]Repository, error) {
 			continue
 		}
 
-		rs, err := d.DiscoverRepositories(path)
+		rs, err := d.Repositories(path)
 		if err != nil {
 			return nil, err
 		}

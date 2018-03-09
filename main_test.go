@@ -12,7 +12,7 @@ import (
 	"github.com/adamliesko/go-thanks/thank"
 )
 
-const goodApiToken = "pass123"
+const goodAPIToken = "pass123"
 
 func init() {
 	log.SetOutput(ioutil.Discard)
@@ -21,7 +21,7 @@ func init() {
 func TestThankingTheGiants(t *testing.T) {
 	*projectPath = path.Join("discover", "test", "project_dep")
 	ft := &FakeGithubThanker{
-		apiToken: goodApiToken,
+		apiToken: goodAPIToken,
 		thanked:  map[string]bool{},
 	}
 	err := thankGiants([]thank.Thanker{ft}, *projectPath)
@@ -73,7 +73,7 @@ func (ft *FakeGithubThanker) Thank(r discover.Repository) error {
 }
 
 func (ft *FakeGithubThanker) Auth() error {
-	if ft.apiToken == goodApiToken {
+	if ft.apiToken == goodAPIToken {
 		return nil
 	}
 	return errors.New("bad auth")
