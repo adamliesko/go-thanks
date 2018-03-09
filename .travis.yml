@@ -1,14 +1,14 @@
 language: go
 go:
   - tip
-  - 1.10
+  - "1.10"
   - 1.9
   - 1.8
+  - 1.1
 env:
   global:
     - PATH=$HOME/gopath/bin:$PATH
 install:
-  - go get github.com/pelletier/go-toml
   - go get github.com/mattn/goveralls
 script:
   - $GOPATH/bin/goveralls -race=true -service=travis-ci
