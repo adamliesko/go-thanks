@@ -1,13 +1,13 @@
 package thank
 
 import (
+	"errors"
 	"io/ioutil"
 	"log"
 	"strings"
 	"testing"
 
 	"github.com/adamliesko/go-thanks/discover"
-	"github.com/pkg/errors"
 )
 
 const goodApiToken = "pass123"
