@@ -8,14 +8,14 @@
 
 `go-thanks` is a cmd line utility to show some love to all the hardworking Gophers, from whose work you profit daily by using their OSS.
 It  automatically detects imported packages from Go package managers ([dep](https://github.com/golang/dep), [Govendor](https://github.com/kardianos/govendor) and [Glide](https://github.com/Masterminds/glide)) 
-and stars package repositories on Github and Gitlab. Inspired by [cargo-thanks](https://github.com/softprops/cargo-thanks).
+and stars package repositories on Github and Gitlab. Inspired by [cargo-thanks](https://github.com/softprops/cargo-thanks) from the Rust ecosystem.
 
-### Installation
+## Installation
 ```
 go get -u github.com/adamliesko/go-thanks
 ```
 
-### Usage
+## Usage
 
 ```
 go-thanks --github-token GITHUB_TOKEN
@@ -33,10 +33,9 @@ Usage of ./go-thanks:
     	Gitlab API token. Defaults to env variable GITLAB_TOKEN.
   -project-path string
     	Path to Go project. (default ".")
-
 ```
 
-### Access Tokens
+## Access Tokens
 
 `go-thanks` requires personal access tokens, to be able to perform the thank action (starring a repository).
 
