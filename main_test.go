@@ -50,6 +50,14 @@ func TestThankingTheGiantsWithBadTokenFails(t *testing.T) {
 	}
 }
 
+func TestRunnerReturnsErrorIfNoThankerAuthenticated(t *testing.T) {
+	*projectPath = path.Join("discover", "test", "project_dep")
+	err := run()
+	if err == nil {
+		t.Fatal(err)
+	}
+}
+
 type FakeGithubThanker struct {
 	apiToken string
 	thanked  map[string]bool
