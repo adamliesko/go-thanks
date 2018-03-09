@@ -1,0 +1,20 @@
+INVALID_JSON
+{
+  "comment": "",
+  "ignore": "test",
+  "package": [
+    {
+      "checksumSHA1": "ZQJSiJXqf+iSGZaOZT/rxEG/Wf8=",
+      "path": "github.com/Bowery/prompt",
+      "revision": "94b504f42fdd503acc3b3c79ec2b517d90e0de8a",
+      "revisionTime": "2018-02-09T14:12:55Z"
+    },
+    {
+      "checksumSHA1": "6VGFARaK8zd23IAiDf7a+gglC8k=",
+      "path": "github.com/dchest/safefile",
+      "revision": "855e8d98f1852d48dde521e0522408d1fe7e836a",
+      "revisionTime": "2015-10-22T12:31:44+02:00"
+    }
+  ],
+  "rootPath": "github.com/kardianos/govendor"
+}

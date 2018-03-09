@@ -8,7 +8,7 @@
 
 `go-thanks` is a cmd line utility to show some love to all the hardworking Gophers, from whose work you profit daily by using their OSS.
 It  automatically detects imported packages from Go package managers ([dep](https://github.com/golang/dep), [Govendor](https://github.com/kardianos/govendor) and [Glide](https://github.com/Masterminds/glide)) 
-and stars package repositories on Github and Gitlab.
+and stars package repositories on Github and Gitlab. Inspired by [cargo-thanks](https://github.com/softprops/cargo-thanks).
 
 ### Installation
 ```
@@ -45,3 +45,4 @@ guide and check only `public_repo` access.
 
 For Gitlab follow their [personal_access_tokens](https://docs.gitlab.com/ce/user/profile/personal_access_tokens.html) 
 guide and use scope `api`.
+

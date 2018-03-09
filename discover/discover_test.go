@@ -129,6 +129,11 @@ func TestDiscoverRepositories(t *testing.T) {
 			wantErr: errors.New(""),
 		},
 		{
+			name:    "errors from govendor",
+			path:    path.Join("test", "project_errors_govendor"),
+			wantErr: errors.New(""),
+		},
+		{
 			name:    "errors from all except dep still errors out",
 			path:    path.Join("test", "project_errors_dep_ok"),
 			wantErr: errors.New(""),
