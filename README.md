@@ -4,8 +4,10 @@
 [![GoDoc](https://godoc.org/github.com/adamliesko/go-thanks?status.svg)](https://godoc.org/github.com/adamliesko/go-thanks) 
 [![Coverage Status](https://img.shields.io/coveralls/adamliesko/go-thanks.svg)](https://coveralls.io/r/adamliesko/go-thanks?branch=master)
 
-`go-thanks` is a cmd line utility to show some love to all the hardworking developers and organizations, from whose work you profit daily by using their OSS.
-It  automatically detects imported packages from your package managers ([dep](https://github.com/golang/dep), [Govendor](https://github.com/kardianos/govendor) and [Glide](https://github.com/Masterminds/glide)) 
+[![asciicast](https://asciinema.org/a/168466.png)](https://asciinema.org/a/168466)
+
+`go-thanks` is a cmd line utility to show some love to all the hardworking Gophers, from whose work you profit daily by using their OSS.
+It  automatically detects imported packages from Go package managers ([dep](https://github.com/golang/dep), [Govendor](https://github.com/kardianos/govendor) and [Glide](https://github.com/Masterminds/glide)) 
 and stars package repositories on Github and Gitlab.
 
 ### Installation
