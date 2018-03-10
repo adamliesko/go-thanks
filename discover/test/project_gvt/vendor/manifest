@@ -1,0 +1,13 @@
+{
+	"generator": "github.com/FiloSottile/gvt",
+	"dependencies": [
+		{
+			"importpath": "github.com/wadey/gocovmerge",
+			"repository": "https://github.com/wadey/gocovmerge",
+			"vcs": "git",
+			"revision": "b5bfa59ec0adc420475f97f89b58045c721d761c",
+			"branch": "master",
+			"notests": true
+		}
+	]
+}

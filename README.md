@@ -7,8 +7,13 @@
 [![asciicast](https://asciinema.org/a/168466.png)](https://asciinema.org/a/168466)
 
 `go-thanks` is a cmd line utility to show some love to all the hardworking Gophers, from whose work you profit daily by using their OSS.
-It  automatically detects imported packages from Go package managers ([dep](https://github.com/golang/dep), [Govendor](https://github.com/kardianos/govendor) and [Glide](https://github.com/Masterminds/glide)) 
-and stars package repositories on Github and Gitlab. Inspired by [cargo-thanks](https://github.com/softprops/cargo-thanks) from the Rust ecosystem.
+It  automatically detects imported packages and stars their repositories on Github and Gitlab from following Go package managers:
+- [dep](https://github.com/golang/dep)
+- [Govendor](https://github.com/kardianos/govendor) 
+- [Glide](https://github.com/Masterminds/glide)
+- [gvt](https://github.com/FiloSottile/gvt)
+
+Inspired by [cargo-thanks](https://github.com/softprops/cargo-thanks) from the Rust ecosystem.
 
 ## Installation
 ```

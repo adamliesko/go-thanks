@@ -9,11 +9,12 @@ type Discoverer interface {
 	Repositories(path string) (RepoMap, error)
 }
 
+var discoverers = []Discoverer{Dep{}, Glide{}, Govendor{}, Gvt{}}
+
 // Repositories produces a slice of repositories extracted from the passed in discoverers within one's Go project.
 func Repositories(path string) ([]Repository, error) {
-	discoverers := []Discoverer{Dep{}, Glide{}, Govendor{}}
-
 	repoMap := make(RepoMap)
+
 	for _, d := range discoverers {
 		if inUse, err := d.InUse(path); !inUse || err != nil {
 			continue

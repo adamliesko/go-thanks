@@ -118,6 +118,18 @@ func TestDiscoverRepositories(t *testing.T) {
 			wantErr: nil,
 		},
 		{
+			name: "gvt",
+			path: path.Join("test", "project_gvt"),
+			wantRepos: []Repository{
+				{
+					Name:  "gocovmerge",
+					Owner: "wadey",
+					URL:   "github.com/wadey/gocovmerge",
+				},
+			},
+			wantErr: nil,
+		},
+		{
 			name:      "nothing to be found",
 			path:      path.Join("test", "project_none"),
 			wantRepos: []Repository{},
@@ -131,6 +143,11 @@ func TestDiscoverRepositories(t *testing.T) {
 		{
 			name:    "errors from govendor",
 			path:    path.Join("test", "project_errors_govendor"),
+			wantErr: errors.New(""),
+		},
+		{
+			name:    "errors from gvt",
+			path:    path.Join("test", "project_errors_gvt"),
 			wantErr: errors.New(""),
 		},
 		{
